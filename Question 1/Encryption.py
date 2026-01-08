@@ -1,1 +1,2 @@
-hello hello
+
+def encrypt_message(message, key):
