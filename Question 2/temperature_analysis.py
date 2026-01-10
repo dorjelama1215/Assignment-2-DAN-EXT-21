@@ -43,19 +43,31 @@ def add_season_column(df):
     return df
 
 
+def save_seasonal_averages(df, output_file="average_temp.txt"):
+    seasonal_avg = df.groupby("Season")["Temperature"].mean()
+
+ 
+    seasons_order = ["Summer", "Autumn", "Winter", "Spring"]
+
+    with open(output_file, "w") as f:
+        for season in seasons_order:
+            if season in seasonal_avg:
+                f.write(f"{season}: {seasonal_avg[season]:.1f}°C\n")
+
+    print(f"Seasonal averages saved to {output_file}")
+
+
 def main():
     folder_path = "temperatures"
     
-   
     df = load_temperature_data(folder_path)
     df = clean_data(df)
-    
-    print("After cleaning NaN values (first 5 rows):")
-    print(df.head())
-
-   
     df = add_season_column(df)
-    print("\nAfter adding Season column (first 5 rows):")
+
+    
+    save_seasonal_averages(df)
+
+    print("Data after adding Season column (first 5 rows):")
     print(df.head())
 
 if __name__ == "__main__":
