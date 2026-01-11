@@ -1,2 +1,5 @@
 
-def encrypt_message(message, key):
+def encrypt_messsage(shift1, shift2):
+    pass
+def decrypt_message(shift1, shift2):
+    pass
