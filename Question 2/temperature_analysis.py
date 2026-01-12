@@ -1,20 +1,19 @@
 import os
 import pandas as pd
-import numpy as np
 
 
 def load_temperature_data(folder_path):
     if not os.path.exists(folder_path):
         raise FileNotFoundError(f"Folder '{folder_path}' not found.")
 
-    all_data = []
-    for file in os.listdir(folder_path):
-        if file.endswith(".csv"):
-            df = pd.read_csv(os.path.join(folder_path, file))
-            all_data.append(df)
-
-    if not all_data:
+    csv_files = [f for f in os.listdir(folder_path) if f.endswith(".csv")]
+    if not csv_files:
         raise ValueError("No CSV files found in the temperatures folder.")
+
+    all_data = []
+    for file in csv_files:
+        df = pd.read_csv(os.path.join(folder_path, file))
+        all_data.append(df)
 
     return pd.concat(all_data, ignore_index=True)
 
@@ -54,10 +53,10 @@ def save_largest_temperature_range(df, output_file="largest_temp_range_station.t
     stats["range"] = stats["max"] - stats["min"]
 
     max_range = stats["range"].max()
-    largest_range_stations = stats[stats["range"] == max_range]
+    largest = stats[stats["range"] == max_range]
 
     with open(output_file, "w") as f:
-        for station, row in largest_range_stations.iterrows():
+        for station, row in largest.iterrows():
             f.write(
                 f"Station {station}: Range {row['range']:.1f}°C "
                 f"(Max: {row['max']:.1f}°C, Min: {row['min']:.1f}°C)\n"
@@ -70,17 +69,12 @@ def save_temperature_stability(df, output_file="temperature_stability_stations.t
     min_std = std_dev.min()
     max_std = std_dev.max()
 
-    most_stable = std_dev[std_dev == min_std]
-    most_variable = std_dev[std_dev == max_std]
-
     with open(output_file, "w") as f:
-        for station, value in most_stable.items():
+        for station, value in std_dev[std_dev == min_std].items():
             f.write(f"Most Stable: Station {station}: StdDev {value:.1f}°C\n")
 
-        for station, value in most_variable.items():
+        for station, value in std_dev[std_dev == max_std].items():
             f.write(f"Most Variable: Station {station}: StdDev {value:.1f}°C\n")
-
-    print(f"Temperature stability results saved to {output_file}")
 
 
 def main():
@@ -91,6 +85,8 @@ def main():
     save_seasonal_averages(df)
     save_largest_temperature_range(df)
     save_temperature_stability(df)
+
+    print("✅ Temperature analysis completed successfully.")
 
 if __name__ == "__main__":
     main()
