@@ -1,0 +1,2 @@
+Most Stable: Station Darwin: StdDev 0.4°C
+Most Variable: Station Melbourne: StdDev 2.0°C
