@@ -1,13 +1,7 @@
-
 from __future__ import annotations
 from pathlib import Path
 
 
-<<<<<<< HEAD
-def verification_files(
-    original_path: str | Path = "Question 1/raw_text.txt",
-    decrypted_path: str | Path = "decrypted_text.txt",
-=======
 def _shift_in_half(ch: str, delta: int, start: str) -> str:
    
     base = ord(start)
@@ -37,7 +31,6 @@ def decrypt_char(ch: str, shift1: int, shift2: int, *args, **kwargs) -> str:
 def decrypted_file(
     input_path: str | Path = "encrypted_text.txt",
     output_path: str | Path = "decrypted_text.txt",
->>>>>>> 00f3d348d56a43da1cb567edca9d1b50ce0b2870
     *,
     shift1: int,
     shift2: int,
