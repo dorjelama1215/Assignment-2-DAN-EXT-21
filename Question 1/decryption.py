@@ -1,14 +1,14 @@
-from __future__ import annotations
+from __future__ import annotations 
 from pathlib import Path
 
-
+# function to shift a character within its half of the alphabet
 def _shift_in_half(ch: str, delta: int, start: str) -> str:
    
     base = ord(start)
     offset = ord(ch) - base
     return chr(base + (offset + delta) % 13)
 
-
+# function to decrypt a single character based on the specified rules
 def decrypt_char(ch: str, shift1: int, shift2: int, *args, **kwargs) -> str:
     
     if ch.islower():
@@ -27,7 +27,7 @@ def decrypt_char(ch: str, shift1: int, shift2: int, *args, **kwargs) -> str:
 
     return ch
 
-
+# function to decrypt an entire file
 def decrypted_file(
     input_path: str | Path = "encrypted_text.txt",
     output_path: str | Path = "decrypted_text.txt",
