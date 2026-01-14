@@ -9,8 +9,9 @@ def load_temperature_data(folder_path):
     csv_files = [f for f in os.listdir(folder_path) if f.endswith(".csv")]
     if not csv_files:
         raise ValueError("No CSV files found in the temperatures folder.")
-
+ # Get all CSV files in the folder
     all_data = []
+   
     for file in csv_files:
         df = pd.read_csv(os.path.join(folder_path, file))
         all_data.append(df)
@@ -37,6 +38,7 @@ def add_season_column(df):
     df["Season"] = df["Date"].dt.month.apply(get_season)
     return df
 
+# Calculates average temperature for each season and save the result at average_temp.txt
 
 def save_seasonal_averages(df, output_file="average_temp.txt"):
     seasonal_avg = df.groupby("Season")["Temperature"].mean()
@@ -47,6 +49,7 @@ def save_seasonal_averages(df, output_file="average_temp.txt"):
             if season in seasonal_avg:
                 f.write(f"{season}: {seasonal_avg[season]:.1f}°C\n")
 
+# finding the station with highest temperature rnge
 
 def save_largest_temperature_range(df, output_file="largest_temp_range_station.txt"):
     stats = df.groupby("Station")["Temperature"].agg(["max", "min"])
@@ -62,10 +65,14 @@ def save_largest_temperature_range(df, output_file="largest_temp_range_station.t
                 f"(Max: {row['max']:.1f}°C, Min: {row['min']:.1f}°C)\n"
             )
 
+# Calculating temp stability using standard deviation 
 
 def save_temperature_stability(df, output_file="temperature_stability_stations.txt"):
     std_dev = df.groupby("Station")["Temperature"].std()
 
+ 
+ # Identifing smallest and largest standard deviation
+ 
     min_std = std_dev.min()
     max_std = std_dev.max()
 
