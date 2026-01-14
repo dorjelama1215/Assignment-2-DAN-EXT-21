@@ -1,4 +1,4 @@
-
+from pathlib import Path
 
 HALF_SIZE = 13
 
@@ -28,7 +28,7 @@ def encrypt_character(char: str, shift1: int, shift2: int) -> str:
 
 
 def encrypted_file(
-    source: str | Path = "raw_text.txt",
+    source: str | Path = "Question 1/raw_text.txt",
     destination: str | Path = "encrypted_text.txt",
     *,
     shift1: int,
